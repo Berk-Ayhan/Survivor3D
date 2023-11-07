@@ -1,4 +1,6 @@
+using UnityEngine;
+
 public interface IMover
 {
-    void Move(float horizontal, float vertical);
+    void Move(Vector3 direction, float moveSpeed);
 }
