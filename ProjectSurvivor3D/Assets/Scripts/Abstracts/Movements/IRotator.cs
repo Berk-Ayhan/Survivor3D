@@ -1,4 +1,6 @@
+using UnityEngine;
+
 public interface IRotator
 {
-    void Rotate(float direction, float speed);
+    void Rotate(Vector3 direction, float speed);
 }
