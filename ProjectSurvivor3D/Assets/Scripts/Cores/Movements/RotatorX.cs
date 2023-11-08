@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class RotatorX : IRotator
 {
-    PlayerController _playerController;
-    public RotatorX(PlayerController playerController)
+    IEntityController _controller;
+    public RotatorX(IEntityController controller)
     {
-        _playerController = playerController;
+       _controller = controller;
     }
 
     public void Rotate(Vector3 direction, float speed, bool canRotate)
     {
+        // Debug.Log("Can rotate:  " +canRotate);
         // _playerController.transform.GetChild(0).Rotate(Vector3.up * direction * Time.deltaTime * speed);
         if (direction != Vector3.zero && canRotate)
         {
             Quaternion toRotation = Quaternion.LookRotation(direction, Vector3.up);
-            _playerController.transform.GetChild(0).rotation = Quaternion.RotateTowards(_playerController.transform.GetChild(0).rotation, toRotation, speed * Time.deltaTime);            
+            _controller.transform.GetChild(0).rotation = Quaternion.RotateTowards(_controller.transform.GetChild(0).rotation, toRotation, speed * Time.deltaTime);            
         }
     }
 }

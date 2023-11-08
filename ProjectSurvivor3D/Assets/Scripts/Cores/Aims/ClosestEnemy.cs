@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class ClosestEnemy : IClosestEnemy
 {
-    float _searchRadius = 10f;
-
-    EnemyController closestEnemy;
+    float _searchRadius;
     IEntityController _controller;
 
     public ClosestEnemy(IEntityController controller, float searchRadius)
@@ -15,37 +13,20 @@ public class ClosestEnemy : IClosestEnemy
 
     public EnemyController Find()
     {
-        int maxColliders = 5;
-        Collider[] hitColliders = new Collider[maxColliders];
-        int numColliders = Physics.OverlapSphereNonAlloc(_controller.transform.position, _searchRadius, hitColliders);
-        float closestDistance = Mathf.Infinity;
+        float _distanceToClosestEnemy = Mathf.Infinity;
+		EnemyController _closestEnemy = null;
+		EnemyController[] _allEnemies = GameObject.FindObjectsOfType<EnemyController>();
+
+		foreach (EnemyController _currentEnemy in _allEnemies) {
+			float _distanceToEnemy = (_currentEnemy.transform.position - _controller.transform.position).sqrMagnitude;
+
+			if(_distanceToEnemy > Mathf.Pow(_searchRadius, 2) || _distanceToEnemy > _distanceToClosestEnemy) continue;
+
+            _distanceToClosestEnemy = _distanceToEnemy;
+			_closestEnemy = _currentEnemy;
+		}
+        if (_closestEnemy != null)  Debug.DrawLine (_controller.transform.position, _closestEnemy.transform.position);
         
-        for (int i = 0; i < numColliders; i++)
-        {
-            EnemyController enemy;
-            hitColliders[i].TryGetComponent(out enemy);
-
-            if(enemy == null) {closestEnemy = null; continue;};
-            
-            float distance = Vector3.Distance(_controller.transform.position, hitColliders[i].transform.position);
-
-            if(distance > closestDistance) continue;
-
-            closestEnemy = enemy;
-            closestDistance = distance;
-            // Debug.Log("Closest Enemy Is " + closestEnemy);
-        }
-        return closestEnemy;
+        return _closestEnemy;
     }
-
-    private void OnDrawGizmos() {
-        OnDrawGizmosSelected();
-    }
-
-    private void OnDrawGizmosSelected() {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_controller.transform.position, _searchRadius);
-    }
-
-
 }

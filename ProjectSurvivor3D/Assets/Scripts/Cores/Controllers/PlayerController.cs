@@ -26,4 +26,13 @@ public class PlayerController : MonoBehaviour, IEntityController
         _lookAtEnemy.Look(_closestEnemy.Find());
         _xRotator.Rotate(_input.Direction, _rotationSpeed, !_closestEnemy.Find());
     }
+    
+    private void OnDrawGizmos() {
+        OnDrawGizmosSelected();
+    }
+
+    private void OnDrawGizmosSelected() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _searchRadius);
+    }
 }
