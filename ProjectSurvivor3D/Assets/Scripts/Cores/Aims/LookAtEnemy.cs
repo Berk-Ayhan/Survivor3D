@@ -14,9 +14,9 @@ public class LookAtEnemy : ILookAtEnemy
     {
         if(enemy == null) return;
 
-        Vector3 direction = enemy.transform.position - _controller.transform.GetChild(0).transform.position;
+        Vector3 direction = enemy.transform.position - _controller.transform.GetChild(0).position;
         enemyRotation = Quaternion.LookRotation(direction);
-        Quaternion lookAt = Quaternion.RotateTowards(_controller.transform.GetChild(0).transform.rotation, enemyRotation, Time.deltaTime * _rotationSpeed);
-        _controller.transform.GetChild(0).transform.rotation = lookAt;
+        Quaternion lookAt = Quaternion.RotateTowards(_controller.transform.GetChild(0).rotation, enemyRotation, Time.deltaTime * _rotationSpeed);
+        _controller.transform.GetChild(0).rotation = lookAt;
     }
 }
