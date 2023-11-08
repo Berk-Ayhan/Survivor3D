@@ -25,7 +25,7 @@ public class ClosestEnemy : IClosestEnemy
             EnemyController enemy;
             hitColliders[i].TryGetComponent(out enemy);
 
-            if(enemy == null) continue;
+            if(enemy == null) {closestEnemy = null; continue;};
             
             float distance = Vector3.Distance(_controller.transform.position, hitColliders[i].transform.position);
 

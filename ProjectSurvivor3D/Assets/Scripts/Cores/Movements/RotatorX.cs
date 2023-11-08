@@ -10,10 +10,10 @@ public class RotatorX : IRotator
         _playerController = playerController;
     }
 
-    public void Rotate(Vector3 direction, float speed)
+    public void Rotate(Vector3 direction, float speed, bool canRotate)
     {
         // _playerController.transform.GetChild(0).Rotate(Vector3.up * direction * Time.deltaTime * speed);
-        if (direction != Vector3.zero)
+        if (direction != Vector3.zero && canRotate)
         {
             Quaternion toRotation = Quaternion.LookRotation(direction, Vector3.up);
             _playerController.transform.GetChild(0).rotation = Quaternion.RotateTowards(_playerController.transform.GetChild(0).rotation, toRotation, speed * Time.deltaTime);            

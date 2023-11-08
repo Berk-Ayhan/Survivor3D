@@ -12,11 +12,6 @@ public class LookAtEnemy : ILookAtEnemy
     }
     public void Look(EnemyController enemy)
     {
-        // if(enemy == null) {
-        //    enemyRotation = Quaternion.Euler(0,0,0);
-        //    _controller.transform.GetChild(0).transform.rotation = Quaternion.RotateTowards(_controller.transform.GetChild(0).transform.rotation, enemyRotation, Time.deltaTime * _rotationSpeed);
-        //    return;
-        // };
         if(enemy == null) return;
 
         Vector3 direction = enemy.transform.position - _controller.transform.GetChild(0).transform.position;
