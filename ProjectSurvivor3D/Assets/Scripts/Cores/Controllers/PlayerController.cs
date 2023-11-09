@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour, IEntityController
     [SerializeField] float _rotationSpeed = 3f;
     [SerializeField] float _searchRadius = 3f;
 
-    bool canRotate;
+    bool _canRotate;
 
     IInputReader _input;
     IMover _mover;
@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour, IEntityController
     private void Update() {
         _mover.Move(_input.Direction, _moveSpeed);
         _closestEnemy.Find();
-        if(canRotate) _xRotator.Rotate(_input.Direction, _rotationSpeed);
+        if(_canRotate) _xRotator.Rotate(_input.Direction, _rotationSpeed);
     }
 
     private void OnEnable() {
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour, IEntityController
     {
         Debug.Log($"Closest Enemy is {controller}");
         _lookAtEnemy.Look(controller);
-        canRotate = controller == null ? true : false;
+        _canRotate = controller == null ? true : false;
     }
 
     private void OnDrawGizmos() {
