@@ -1,4 +1,4 @@
 public interface IClosestEnemy
 {
-    EnemyController Find();
+    void Find();
 }

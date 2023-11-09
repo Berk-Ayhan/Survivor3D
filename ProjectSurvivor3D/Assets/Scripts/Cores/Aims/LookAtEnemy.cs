@@ -5,12 +5,13 @@ public class LookAtEnemy : ILookAtEnemy
     Quaternion enemyRotation;
     float _rotationSpeed;
     IEntityController _controller;
+    
     public LookAtEnemy(IEntityController controller, float rotationSpeed)
     {
         _controller = controller;
         _rotationSpeed = rotationSpeed;
     }
-    public void Look(EnemyController enemy)
+    public void Look(IEntityController enemy)
     {
         if(enemy == null) return;
 

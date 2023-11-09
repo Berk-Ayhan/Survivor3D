@@ -16,6 +16,6 @@ public class EnemyController : MonoBehaviour, IEntityController
     }
     
     private void FixedUpdate() {
-        _chaser.Chase();
+        // _chaser.Chase();
     }
 }

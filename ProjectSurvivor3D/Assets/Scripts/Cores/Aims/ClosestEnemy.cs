@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ClosestEnemy : IClosestEnemy
 {
+    public static event System.Action<IEntityController> OnFindClosestEnemy;
     float _searchRadius;
     IEntityController _controller;
 
@@ -11,7 +12,7 @@ public class ClosestEnemy : IClosestEnemy
         _searchRadius = searchRadius;
     }
 
-    public EnemyController Find()
+    public void Find()
     {
         float _distanceToClosestEnemy = Mathf.Infinity;
 		EnemyController _closestEnemy = null;
@@ -26,7 +27,6 @@ public class ClosestEnemy : IClosestEnemy
 			_closestEnemy = _currentEnemy;
 		}
         if (_closestEnemy != null)  Debug.DrawLine (_controller.transform.position, _closestEnemy.transform.position);
-        
-        return _closestEnemy;
+        OnFindClosestEnemy?.Invoke(_closestEnemy);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IEntityController
@@ -6,6 +7,8 @@ public class PlayerController : MonoBehaviour, IEntityController
     [SerializeField] float _moveSpeed = 3f;
     [SerializeField] float _rotationSpeed = 3f;
     [SerializeField] float _searchRadius = 3f;
+
+    bool canRotate;
 
     IInputReader _input;
     IMover _mover;
@@ -23,10 +26,25 @@ public class PlayerController : MonoBehaviour, IEntityController
 
     private void Update() {
         _mover.Move(_input.Direction, _moveSpeed);
-        _lookAtEnemy.Look(_closestEnemy.Find());
-        _xRotator.Rotate(_input.Direction, _rotationSpeed, !_closestEnemy.Find());
+        _closestEnemy.Find();
+        if(canRotate) _xRotator.Rotate(_input.Direction, _rotationSpeed);
     }
-    
+
+    private void OnEnable() {
+        ClosestEnemy.OnFindClosestEnemy += HandleOnFindClosestEnemy;
+    }
+
+    private void OnDisable() {
+        ClosestEnemy.OnFindClosestEnemy -= HandleOnFindClosestEnemy;
+    }
+
+    private void HandleOnFindClosestEnemy(IEntityController controller)
+    {
+        Debug.Log($"Closest Enemy is {controller}");
+        _lookAtEnemy.Look(controller);
+        canRotate = controller == null ? true : false;
+    }
+
     private void OnDrawGizmos() {
         OnDrawGizmosSelected();
     }
