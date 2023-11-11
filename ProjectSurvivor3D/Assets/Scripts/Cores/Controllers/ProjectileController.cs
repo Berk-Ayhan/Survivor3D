@@ -27,6 +27,7 @@ public class ProjectileController : MonoBehaviour, IEntityController
     }
 
     private void OnTriggerEnter() {
+        isLocked = false;
         ProjectileManager.Instance.SetPool(this);
     }
 }
