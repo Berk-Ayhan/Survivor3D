@@ -1,31 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileController : MonoBehaviour, IEntityController
 {
-    // public Transform target;
     [SerializeField] float speed = 5f;
     [SerializeField] float rotateSpeed = 0.3f;
-    [SerializeField] float _searchRadius = 10f;
     IChaser _chaser;
-    IClosestEnemy _closestEnemy;
-    IEntityController _enemy;
-    private void Awake() {
-        _closestEnemy = new ClosestEnemy(this, _searchRadius);
-    }
+    bool isLocked;
 
-    private void Start() {
-        // _enemy = _closestEnemy.Find();
-        _chaser = new EnemyChaser(this, _enemy, transform, speed, rotateSpeed);
-    }
-    
-    private void FixedUpdate() {
+    private void Update() {
         _chaser.Chase();
     }
 
+    private void HandleOnFindClosestEnemy(IEntityController controller)
+    {
+        if(isLocked) return;
+        _chaser = new EnemyChaser(this, controller, transform, speed, rotateSpeed);
+        isLocked = true;
+    }
+
+    private void OnEnable() {
+        ClosestEnemy.OnFindClosestEnemy += HandleOnFindClosestEnemy;
+    }
+
+    private void OnDisable() {
+        ClosestEnemy.OnFindClosestEnemy -= HandleOnFindClosestEnemy;
+    }
+
     private void OnTriggerEnter() {
-        _enemy = null;
         ProjectileManager.Instance.SetPool(this);
     }
 }

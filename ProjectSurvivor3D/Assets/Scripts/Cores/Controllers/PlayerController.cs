@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour, IEntityController
 
     private void HandleOnFindClosestEnemy(IEntityController controller)
     {
-        Debug.Log($"Closest Enemy is {controller}");
         _lookAtEnemy.Look(controller);
         _canRotate = controller == null ? true : false;
     }
